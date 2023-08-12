@@ -1,12 +1,20 @@
 import React, { useState } from 'react'
 import './style.css';
 import NewTodoForm from './NewTodoForm';
+import TodoList from './TodoList';
 
 export default function App() {
  
   const [todos, setTodos] = useState([])
 
-  
+  function addTodo(title){
+     setTodos((currentTodos) => {
+          return       [
+            ...currentTodos, {id: crypto.randomUUID(), title, completed: false},
+        ]
+        })
+  }
+
   function toggleTodo(id, completed ){
     setTodos(currentTodos => {
       return currentTodos.map(todo => {
@@ -25,21 +33,9 @@ export default function App() {
 
   return (
     <>
-    <NewTodoForm/>
+    <NewTodoForm onSubmit={addTodo}/>
     <h1 className='header'>Task List</h1>
-    <ul className="list">
-      {todos.length === 0 && "Awaiting Task... 👋🏾 "}
-      {todos.map(todo => {
-         return <li key={todo.id}>
-         <label htmlFor="">
-           <input type="checkbox" checked={todo.completed} 
-           onChange={e => toggleTodo(todo.id, e.target.checked)} />
-           {todo.title}
-         </label>
-         <button onClick={() => deleteTodo(todo.id)} className='btn btn-danger'>DELETE</button>
-       </li>
-      })}
-    </ul>
+    <TodoList todos={todos}/>
     </>
   )
 }

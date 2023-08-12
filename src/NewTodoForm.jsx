@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 
-export default function NewTodoForm() {
+export default function NewTodoForm(props) {
+    props.onSubmit
     const [newItem, setNewItem] = useState("")
 
     function handleSubmit(e){
         e.preventDefault()
-        // setTodos((currentTodos) => {
-        //   return       [
-        //     ...currentTodos, {id: crypto.randomUUID(), title: newItem, completed: false},
-        // ]
-        // })
+
+        if(newItem === "") return
+        
+        props.onSubmit(newItem)
+
         setNewItem('');
-    
       }
 
   return (
